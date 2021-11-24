@@ -59,11 +59,11 @@ const http = customHttp();
 
 //Object of news
 const newsService = (function () {
-  const apiKey = "994d39d771a84aada67b6bce640cfb6e";
+  const apiKey = "8eead1e0780543da8d468765e1a05037";
   const apiUrl = "https://newsapi.org/v2";
 
   return {
-    topHeadlines(country = "us", category, cb) {
+    topHeadlines(country = "ae", category = "business", cb) {
       http.get(
         `${apiUrl}/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`,
         cb
@@ -83,9 +83,9 @@ const searchInput = form.elements["search"];
 // Load news
 function loadNews() {
   showLoader();
-  const country = countrySelect.value;
+  const country = countrySelect.value || undefined;
   const searchText = searchInput.value;
-  const category = categorySelect.value;
+  const category = categorySelect.value || undefined;
 
   if (!searchText) {
     newsService.topHeadlines(country, category, onGetResponse);
@@ -232,12 +232,12 @@ function showAlert(msg, type = "success") {
   M.toast({ html: msg, classes: type });
 }
 
-//  init selects
+// init selects
 document.addEventListener("DOMContentLoaded", function () {
+  loadListCategories();
+  loadListCountries();
   M.AutoInit();
   loadNews();
-  loadListCountries();
-  loadListCategories();
 });
 
 // Add listener 'submit' sending data on the server
